@@ -1,0 +1,32 @@
+<?php
+session_start(); 	
+require_once('../conecta2023.php');
+require_once('../inc/funciones_libros44.php'); 
+conectalo("almacen");
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel="stylesheet" href="../css/frc.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/frcico.css" type="text/css" media="screen" />
+</head>
+
+<body class="fcenter"><?php
+$arr=explode( "/", $_SERVER[ "PHP_SELF "]); $autollamada= $arr[count( $arr)-1]. "?"; 
+if ((!isset($logeado) && !isset($TxtUsuario))){
+	echo "<br><br><br><br><table border='0' width='500' height='200'><tr><td align='center'><h1>Acceso NO permitido</h1><br><br></td></tr></table>";
+}else{
+        // ------------------------------------------------------------------- BANNER ENCABEZADO --------------------------------------------------------------- 
+        $TItulo="<h3 class='fbold ftext-red'>".$logeado."</h3>"; $subtit="<h3 class='ftext-green'>Lista de zonas de ".$_GET["nivel"]."</h3>"; 		 
+        $LGback="../ingresoalmacen/pauta_seleccion_niveles_para_sector.php?arr_nivel=".$_GET["idnivel"]."|".$_GET["nivel"]."&sel=Sectores"; $fijoSINO="SI"; 		$stylecolor=""; $lgimg="../images/logo_SEVGob.png"; $imgancho="800"; $lgagrega=""; $lgbusca="";	fbanner($TItulo,$subtit,$LGback,$fijoSINO,$stylecolor,$lgimg."|".$imgancho,$lgagrega,$lgbusca);	 
+        // -----------------------------------------------------------------------------------------------------------------------------------------------------
+        if($_SESSION["vg_tipousuario"]=="Almacen"){$el_cct_sector=$_GET["cct_sector"];}else{$el_cct_sector=$_SESSION["vg_cct_sector"];}
+        $liga1="Recibo|../ingresosupervisor/recibo_libros_zona.php?||#F9FFE4";      // titulo del boton|liga|titulo de la columna
+        $liga2="Escuelas|../ingresosupervisor/pauta_seleccion_escuelas_por_zona.php?||#F9FFE4";      // titulo del boton|liga|titulo de la columna
+        flista_ZONAS_x_sector_nivel($el_cct_sector,$_GET["idnivel"],"",$liga1,$liga2);
+}
+?>
+</body>
+</html>
